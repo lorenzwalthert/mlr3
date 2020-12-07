@@ -15,7 +15,12 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
         stopf("All backends to rbind must have the primary_key '%s'", pk)
       }
 
-      super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
+      super$initialize(
+        data = list(b1 = b1, b2 = b2),
+        primary_key = pk,
+        data_formats = "data.table",
+        in_memory = isTRUE(b1$in_memory) || isTRUE(b2$in_memory)
+      )
     },
 
     data = function(rows, cols, data_format = self$data_formats[1L]) {

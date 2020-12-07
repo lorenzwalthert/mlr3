@@ -51,6 +51,9 @@ Column name of the primary key column of unique integer row ids.}
 
 \item{\code{data_formats}}{(\code{character()})\cr
 Set of supported formats, e.g. \code{"data.table"} or \code{"Matrix"}.}
+
+\item{\code{in_memory}}{(\code{logical(1)})\cr
+Flag signaling whether the data is stored in memory or not.}
 }
 \if{html}{\out{</div>}}
 }
@@ -80,7 +83,12 @@ Note: This object is typically constructed via a derived classes, e.g.
 \link{DataBackendDataTable} or \link{DataBackendMatrix}, or via the S3 method
 \code{\link[=as_data_backend]{as_data_backend()}}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DataBackend$new(data, primary_key, data_formats = "data.table")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DataBackend$new(
+  data,
+  primary_key,
+  data_formats = "data.table",
+  in_memory = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -99,6 +107,10 @@ use of this variable may differ between backends.}
 \item{\code{data_formats}}{(\code{character()})\cr
 Set of supported data formats which can be processed during \verb{$train()} and \verb{$predict()},
 e.g. \code{"data.table"}.}
+
+\item{\code{in_memory}}{(\code{logical(1)})\cr
+Set to \code{TRUE} if (parts of) the data is stored in memory.
+Will be used in the future for internal optimizations.}
 }
 \if{html}{\out{</div>}}
 }

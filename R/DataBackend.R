@@ -47,6 +47,10 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     #' Set of supported formats, e.g. `"data.table"` or `"Matrix"`.
     data_formats = NULL,
 
+    #' @field in_memory (`logical(1)`)\cr
+    #' Flag signaling whether the data is stored in memory or not.
+    in_memory = NULL,
+
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -63,10 +67,15 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
     #'   Each DataBackend needs a way to address rows, which is done via a
     #'   column of unique integer values, referenced here by `primary_key`. The
     #'   use of this variable may differ between backends.
-    initialize = function(data, primary_key, data_formats = "data.table") {
+    #'
+    #' @param in_memory (`logical(1)`)\cr
+    #'   Set to `TRUE` if (parts of) the data is stored in memory.
+    #'   Will be used in the future for internal optimizations.
+    initialize = function(data, primary_key, data_formats = "data.table", in_memory = TRUE) {
       private$.data = data
       self$primary_key = assert_string(primary_key)
       self$data_formats = assert_subset(data_formats, mlr_reflections$data_formats, empty.ok = FALSE)
+      self$in_memory = assert_flag(in_memory)
     },
 
     #' @description

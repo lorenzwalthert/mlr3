@@ -45,7 +45,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     #'   The input [data.table()].
     initialize = function(data, primary_key) {
       assert_data_table(data, col.names = "unique")
-      super$initialize(setkeyv(data, primary_key), primary_key, data_formats = "data.table")
+      super$initialize(setkeyv(data, primary_key), primary_key, data_formats = "data.table", in_memory = TRUE)
       assert_choice(primary_key, names(data))
     },
 

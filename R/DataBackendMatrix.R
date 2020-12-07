@@ -51,7 +51,12 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
       assert_disjunct(colnames(data), colnames(dense))
 
-      super$initialize(data = list(sparse = data, dense = as.data.table(dense)), primary_key, data_formats = c("Matrix", "data.table"))
+      super$initialize(
+        data = list(sparse = data, dense = as.data.table(dense)),
+        primary_key = primary_key,
+        data_formats = c("Matrix", "data.table"),
+        in_memory = TRUE
+      )
     },
 
     #' @description
