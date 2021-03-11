@@ -290,3 +290,13 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL) {
 
   tab[]
 }
+
+#' @export
+rd_info.Measure = function(obj) {
+  c("",
+    sprintf("* Task Type: %s", rd_format_string(obj$task_type)),
+    sprintf("* Range: %s", rd_format_range(obj$range[1], obj$range[2])),
+    sprintf("* Minimize: %s", rd_format_string(obj$minimize)),
+    sprintf("* Required prediction: %s", rd_format_string(obj$predict_type))
+  )
+}

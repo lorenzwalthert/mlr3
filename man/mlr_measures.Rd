@@ -56,7 +56,9 @@ Other Measure:
 \code{\link{mlr_measures_debug}},
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_oob_error}},
-\code{\link{mlr_measures_selected_features}}
+\code{\link{mlr_measures_selected_features}},
+\code{\link{mlr_measures_stab.jaccard}},
+\code{\link{mlr_measures_stab.phi}}
 }
 \concept{Dictionary}
 \concept{Measure}

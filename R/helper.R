@@ -78,3 +78,10 @@ get_progressor = function(n, label = NA_character_) {
 allow_utf8_names = function() {
   isTRUE(getOption("mlr3.allow_utf8_names"))
 }
+
+splat = function(.fun) {
+  .fun = match.fun(.fun)
+  function(li) {
+    do.call(.fun, li)
+  }
+}

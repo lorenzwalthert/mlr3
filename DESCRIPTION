@@ -84,6 +84,7 @@ Suggests:
     mlr3data,
     progressr,
     rpart,
+    stabm,
     testthat (>= 3.0.0)
 Encoding: UTF-8
 LazyData: true
@@ -120,6 +121,8 @@ Collate:
     'MeasureRegr.R'
     'MeasureSelectedFeatures.R'
     'MeasureSimple.R'
+    'MeasureStabJaccard.R'
+    'MeasureStabPhi.R'
     'Prediction.R'
     'PredictionClassif.R'
     'PredictionData.R'

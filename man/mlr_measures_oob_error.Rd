@@ -39,6 +39,8 @@ Other Measure:
 \code{\link{mlr_measures_debug}},
 \code{\link{mlr_measures_elapsed_time}},
 \code{\link{mlr_measures_selected_features}},
+\code{\link{mlr_measures_stab.jaccard}},
+\code{\link{mlr_measures_stab.phi}},
 \code{\link{mlr_measures}}
 }
 \concept{Measure}

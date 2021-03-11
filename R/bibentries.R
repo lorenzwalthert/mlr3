@@ -26,6 +26,17 @@ bibentries = c(
     doi          = "10.1162/evco_a_00069"
   ),
 
+  bommert_2017 = bibentry("article",
+    doi          = "10.1155/2017/7907163",
+    year         = "2017",
+    publisher    = "Hindawi Limited",
+    volume       = "2017",
+    pages        = "1--18",
+    author       = "Andrea Bommert and J\u00f6rg Rahnenf\u00fchrer and Michel Lang",
+    title        = "A Multicriteria Approach to Find Predictive and Sparse Models with Stable Feature Selection for High-Dimensional Data",
+    journal      = "Computational and Mathematical Methods in Medicine"
+  ),
+
   breiman_1984 = bibentry("book",
     title        = "Classification And Regression Trees",
     author       = "Leo Breiman and Jerome H. Friedman and Richard A. Olshen and Charles J. Stone",
@@ -64,6 +75,27 @@ bibentries = c(
     url          = "http://www1.beuth-hochschule.de/FB_II/reports/Report-2019-004.pdf",
     type         = "Reports in Mathematics, Physics and Chemistry",
     institution  = "Department II, Beuth University of Applied Sciences Berlin"
+  ),
+
+  jaccard_1901   = bibentry("article",
+    doi          = "10.5169/SEALS-266450",
+    author       = "Jaccard,  Paul",
+    title        = "\u00c9tude comparative de la distribution florale dans une portion des Alpes et du Jura",
+    journal      = "Bulletin de la Soci\u00e9t\u00e9 Vaudoise des Sciences Naturelles",
+    volume       = "37",
+    pages        = "547-579",
+    publisher    = "Imprimerie Corbaz & Comp.",
+    year         = "1901"
+  ),
+
+  nogueira_2016 = bibentry("incollection",
+    doi          = "10.1007/978-3-319-46227-1_28",
+    year         = "2016",
+    publisher    = "Springer International Publishing",
+    pages        = "442--457",
+    author       = "Sarah Nogueira and Gavin Brown",
+    title        = "Measuring the Stability of Feature Selection",
+    booktitle    = "Machine Learning and Knowledge Discovery in Databases"
   ),
 
   sasaki_2007 = bibentry("article",
