@@ -268,7 +268,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       tab = insert_named(tab, scores)
 
       cns = c("uhash", "nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters",
-          "warnings", "errors", "params", ids(measures))
+        "warnings", "errors", "params", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
     },

@@ -149,7 +149,7 @@ ResampleResult = R6Class("ResampleResult",
         set(tab, j = "learner_id", value = ids(tab[["learner"]]))
         set(tab, j = "resampling_id", value = ids(tab[["resampling"]]))
         setcolorder(tab, c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
-            "iteration", "prediction"))
+          "iteration", "prediction"))
       }
 
       if (conditions) {

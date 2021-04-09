@@ -306,7 +306,7 @@ ResultData = R6Class("ResultData",
     get_view_index = function(view) {
       if (is.null(view))
         return(TRUE)
-       self$data$fact[list(view), on = "uhash", nomatch = NULL, which = TRUE]
+      self$data$fact[list(view), on = "uhash", nomatch = NULL, which = TRUE]
     },
 
     deep_clone = function(name, value) {
@@ -382,8 +382,8 @@ reassemble_learners = function(learners, states = NULL, param_vals = NULL) {
   learners = lapply(learners, function(l) l$clone(deep = TRUE))
 
   if (!is.null(states)) {
-     Map(function(l, s) {
-       l$state = s
+    Map(function(l, s) {
+      l$state = s
     }, l = learners, s = states)
   }
 

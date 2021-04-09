@@ -8,12 +8,12 @@ test_that("convert_task - Regr -> Regr", {
   expect_true(all(result$feature_names != "age"))
   expect_true(all(result$feature_names != "medv"))
   expect_true(all(unlist(imap(result$row_roles,
-          .f = function(z, x) {all(result$row_roles[[x]] == task$row_roles[[x]])}))
-      ))
+    .f = function(z, x) {all(result$row_roles[[x]] == task$row_roles[[x]])}))
+  ))
   expect_true(
     all(map_lgl(c("weights", "groups", "strata", "nrow"), function(x) {
-        all(result[[x]] == task[[x]])
-  })))
+      all(result[[x]] == task[[x]])
+    })))
 })
 
 test_that("convert_task - Regr -> Classif", {
@@ -31,7 +31,7 @@ test_that("convert_task - Regr -> Classif", {
   expect_true(
     all(map_lgl(c("weights", "groups", "strata", "nrow"), function(x) {
       all(result[[x]] == task[[x]])
-  })))
+    })))
 })
 
 test_that("convert_task - Classif -> Regr", {
@@ -49,7 +49,7 @@ test_that("convert_task - Classif -> Regr", {
   expect_true(
     all(map_lgl(c("weights", "groups", "strata", "nrow"), function(x) {
       all(result[[x]] == task[[x]])
-  })))
+    })))
 })
 
 test_that("convert_task - same target", {
