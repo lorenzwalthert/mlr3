@@ -51,7 +51,7 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       ps = ps(
-        folds   = p_int(2L, tags = "required"),
+        folds = p_int(2L, tags = "required"),
         repeats = p_int(1L)
       )
       ps$values = list(repeats = 10L, folds = 10L)

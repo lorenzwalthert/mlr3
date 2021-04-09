@@ -173,7 +173,7 @@ test_that("predict train + test set", {
 })
 
 test_that("assertions work (#357)", {
-  measures = lapply(c("classif.auc","classif.acc"), msr)
+  measures = lapply(c("classif.auc", "classif.acc"), msr)
   task = tsk("iris")
   lrn = lrn("classif.featureless")
   p = lrn$train(task)$predict(task)

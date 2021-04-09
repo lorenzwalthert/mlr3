@@ -34,7 +34,6 @@
 #' Map(function(task, resampling) {
 #'    resampling$instantiate(task)
 #' }, task = grid$task, resampling = grid$resampling)
-#'
 #' \dontrun{
 #' benchmark(grid)
 #' }
