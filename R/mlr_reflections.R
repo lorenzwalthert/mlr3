@@ -73,7 +73,8 @@ local({
 
   ### Task
   # task types + constructors
-  mlr_reflections$task_types = rowwise_table(.key = "type",
+  mlr_reflections$task_types = rowwise_table(
+    .key = "type",
     ~type, ~package, ~task, ~learner, ~prediction, ~measure,
     "regr", "mlr3", "TaskRegr", "LearnerRegr", "PredictionRegr", "MeasureRegr",
     "classif", "mlr3", "TaskClassif", "LearnerClassif", "PredictionClassif", "MeasureClassif"

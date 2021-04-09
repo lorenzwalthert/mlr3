@@ -48,6 +48,5 @@ TaskRegr = R6Class("TaskRegr",
     #' @return `numeric()`.
     truth = function(rows = NULL) {
       super$truth(rows)[[1L]]
-    }
-  )
+    })
 )

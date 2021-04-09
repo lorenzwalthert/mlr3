@@ -38,7 +38,8 @@
 #'
 #' # Internal storage:
 #' rb$instance$M # Matrix of counts
-ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
+ResamplingBootstrap = R6Class("ResamplingBootstrap",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -50,17 +51,13 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
       ps$values = list(ratio = 1, repeats = 30L)
 
       super$initialize(id = "bootstrap", param_set = ps, duplicated_ids = TRUE, man = "mlr3::mlr_resamplings_bootstrap")
-    }
-  ),
-
+    }),
   active = list(
     #' @template field_iters
     iters = function(rhs) {
       assert_ro_binding(rhs)
       as.integer(self$param_set$values$repeats)
-    }
-  ),
-
+    }),
   private = list(
     .sample = function(ids, ...) {
       pv = self$param_set$values
@@ -70,19 +67,15 @@ ResamplingBootstrap = R6Class("ResamplingBootstrap", inherit = Resampling,
       rownames(M) = NULL
       list(row_ids = ids, M = M)
     },
-
     .get_train = function(i) {
       rep(self$instance$row_ids, times = self$instance$M[, i])
     },
-
     .get_test = function(i) {
       self$instance$row_ids[self$instance$M[, i] == 0L]
     },
-
     .combine = function(instances) {
       list(row_ids = do.call(c, map(instances, "row_ids")), M = do.call(rbind, map(instances, "M")))
-    }
-  )
+    })
 )
 
 #' @include mlr_resamplings.R

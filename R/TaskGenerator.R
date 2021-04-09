@@ -71,8 +71,7 @@ TaskGenerator = R6Class("TaskGenerator",
       n = assert_count(n, coerce = TRUE)
       require_namespaces(self$packages)
       private$.generate(n)
-    }
-  )
+    })
 )
 
 convert_mlbench = function(obj) {

@@ -15,7 +15,8 @@
 #' p = learner$train(task)$predict(task)
 #' p$predict_types
 #' head(as.data.table(p))
-PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
+PredictionRegr = R6Class("PredictionRegr",
+  inherit = Prediction,
   cloneable = FALSE,
   public = list(
     #' @description
@@ -58,9 +59,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
       self$man = "mlr3::PredictionRegr"
       self$data = pdata
       self$predict_types = intersect(c("response", "se", "distr"), names(pdata))
-    }
-  ),
-
+    }),
   active = list(
     #' @field response (`numeric()`)\cr
     #' Access the stored predicted response.
@@ -84,8 +83,7 @@ PredictionRegr = R6Class("PredictionRegr", inherit = Prediction,
         require_namespaces("distr6")
       }
       return(self$data$distr)
-    }
-  )
+    })
 )
 
 

@@ -36,17 +36,14 @@ MeasureBIC = R6Class("MeasureBIC",
         minimize = TRUE,
         man = "mlr3::mlr_measures_bic"
       )
-    }
-  ),
-
+    }),
   private = list(
     .score = function(prediction, learner, ...) {
       if ("loglik" %nin% learner$properties) {
         return(NA_real_)
       }
       stats::BIC(learner$loglik())
-    }
-  )
+    })
 )
 
 #' @include mlr_measures.R

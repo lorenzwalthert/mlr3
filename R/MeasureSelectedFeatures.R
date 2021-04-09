@@ -44,9 +44,7 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
         man = "mlr3::mlr_measures_selected_features"
       )
       self$normalize = assert_flag(normalize)
-    }
-  ),
-
+    }),
   private = list(
     .score = function(prediction, task, learner, ...) {
       if ("selected_features" %nin% learner$properties) {
@@ -57,8 +55,7 @@ MeasureSelectedFeatures = R6Class("MeasureSelectedFeatures",
         n = n / length(task$feature_names)
       }
       n
-    }
-  )
+    })
 )
 
 #' @include mlr_measures.R

@@ -175,6 +175,7 @@ Learner = R6Class("Learner",
     #' Printer.
     #' @param ... (ignored).
     print = function() {
+
       catf(format(self))
       catf(str_indent("* Model:", if (is.null(self$model)) "-" else class(self$model)[1L]))
       catf(str_indent("* Parameters:", as_short_string(self$param_set$values, 1000L)))
@@ -212,6 +213,7 @@ Learner = R6Class("Learner",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     train = function(task, row_ids = NULL) {
+
       task = assert_task(as_task(task))
       assert_learnable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
@@ -235,6 +237,7 @@ Learner = R6Class("Learner",
     #'
     #' @return [Prediction].
     predict = function(task, row_ids = NULL) {
+
       task = assert_task(as_task(task))
       assert_learnable(task, self)
       row_ids = assert_row_ids(row_ids, null.ok = TRUE)
@@ -266,6 +269,7 @@ Learner = R6Class("Learner",
     #'
     #' @return [Prediction].
     predict_newdata = function(newdata, task = NULL) {
+
       newdata = as.data.table(assert_data_frame(newdata, min.rows = 1L))
 
       if (is.null(task)) {
@@ -308,9 +312,7 @@ Learner = R6Class("Learner",
     reset = function() {
       self$state = NULL
       invisible(self)
-    }
-  ),
-
+    }),
   active = list(
     #' @field model (`any`)\cr
     #' The fitted model. Only available after `$train()` has been called.
@@ -402,29 +404,28 @@ Learner = R6Class("Learner",
       assert_character(rhs)
       assert_names(names(rhs), subset.of = c("train", "predict"))
       private$.encapsulate = insert_named(c(train = "none", predict = "none"), rhs)
-    }
-  ),
-
+    }),
   private = list(
     .encapsulate = NULL,
     .predict_type = NULL,
     .param_set = NULL,
-
     deep_clone = function(name, value) {
       switch(name,
         .param_set = value$clone(deep = TRUE),
         fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
-        state = { value$log = copy(value$log); value },
+        state = {
+          value$log = copy(value$log); value
+        },
         value
       )
-    }
-  )
+    })
 )
 
 
 #' @export
 rd_info.Learner = function(obj) {
-  c("",
+  c(
+    "",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Predict Types: %s", rd_format_string(obj$predict_types)),
     sprintf("* Feature Types: %s", rd_format_string(obj$feature_types)),

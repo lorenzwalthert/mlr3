@@ -136,6 +136,7 @@ ResampleResult = R6Class("ResampleResult",
     #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
+
       measures = as_measures(measures, task_type = self$data$task_type)
       assert_measures(measures, task = self$task, learner = self$learner)
       assert_flag(ids)
@@ -148,7 +149,8 @@ ResampleResult = R6Class("ResampleResult",
         set(tab, j = "task_id", value = ids(tab[["task"]]))
         set(tab, j = "learner_id", value = ids(tab[["learner"]]))
         set(tab, j = "resampling_id", value = ids(tab[["resampling"]]))
-        setcolorder(tab, c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
+        setcolorder(tab, c(
+          "task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
           "iteration", "prediction"))
       }
 
@@ -158,7 +160,8 @@ ResampleResult = R6Class("ResampleResult",
       }
 
       set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
-      cns = c("task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration",
+      cns = c(
+        "task", "task_id", "learner", "learner_id", "resampling", "resampling_id", "iteration",
         "prediction", "warnings", "errors", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
@@ -187,7 +190,8 @@ ResampleResult = R6Class("ResampleResult",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     filter = function(iters) {
-      iters = assert_integerish(iters, lower = 1L, upper = self$resampling$iters,
+      iters = assert_integerish(iters,
+        lower = 1L, upper = self$resampling$iters,
         any.missing = FALSE, unique = TRUE, coerce = TRUE)
 
       self$data = self$data$clone(deep = TRUE)
@@ -199,9 +203,7 @@ ResampleResult = R6Class("ResampleResult",
       self$data$data$fact = fact[list(iters), on = "iteration", nomatch = NULL]
 
       invisible(self)
-    }
-  ),
-
+    }),
   active = list(
     #' @field task_type (`character(1)`)\cr
     #' Task type of objects in the `ResampleResult`, e.g. `"classif"` or `"regr"`.
@@ -273,14 +275,11 @@ ResampleResult = R6Class("ResampleResult",
     errors = function(rhs) {
       assert_ro_binding(rhs)
       self$data$logs(self$view, "error")
-    }
-  ),
-
+    }),
   private = list(
     deep_clone = function(name, value) {
       if (name == "data") value$clone(deep = TRUE) else value
-    }
-  )
+    })
 )
 
 #' @export

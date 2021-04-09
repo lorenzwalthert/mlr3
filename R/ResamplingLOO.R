@@ -32,15 +32,14 @@
 #'
 #' # Internal storage:
 #' rcv$instance # vector
-ResamplingLOO = R6Class("ResamplingLOO", inherit = Resampling,
+ResamplingLOO = R6Class("ResamplingLOO",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(id = "loo", man = "mlr3::mlr_resamplings_loo")
-    }
-  ),
-
+    }),
   active = list(
     #' @field iters (`integer(1)`)\cr
     #' Returns the number of resampling iterations which is the number of rows of the task
@@ -48,26 +47,20 @@ ResamplingLOO = R6Class("ResamplingLOO", inherit = Resampling,
     iters = function(rhs) {
       assert_ro_binding(rhs)
       if (is.null(self$instance)) NA_integer_ else length(self$instance)
-    }
-  ),
-
+    }),
   private = list(
     .sample = function(ids, ...) {
       shuffle(ids)
     },
-
     .get_train = function(i) {
       self$instance[-i]
     },
-
     .get_test = function(i) {
       self$instance[i]
     },
-
     .combine = function(instances) {
       do.call(c, instances)
-    }
-  )
+    })
 )
 
 #' @include mlr_resamplings.R

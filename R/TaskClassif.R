@@ -91,9 +91,7 @@ TaskClassif = R6Class("TaskClassif",
       super$droplevels()
       private$.update_class_property()
       invisible(self)
-    }
-  ),
-
+    }),
   active = list(
     #' @field class_names (`character()`)\cr
     #' Returns all class labels of the target column.
@@ -132,9 +130,7 @@ TaskClassif = R6Class("TaskClassif",
         return(NA_character_)
       }
       return(lvls[2L])
-    }
-  ),
-
+    }),
   private = list(
     .update_class_property = function() {
       nlvls = length(self$class_names)
@@ -144,6 +140,5 @@ TaskClassif = R6Class("TaskClassif",
 
       private$.properties = setdiff(private$.properties, c("twoclass", "multiclass"))
       private$.properties = union(private$.properties, if (nlvls == 2L) "twoclass" else "multiclass")
-    }
-  )
+    })
 )

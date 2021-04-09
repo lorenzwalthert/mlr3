@@ -1,6 +1,7 @@
 #' @rdname PredictionData
 #' @export
 check_prediction_data.PredictionDataClassif = function(pdata) { # nolint
+
   pdata$row_ids = assert_row_ids(pdata$row_ids)
   n = length(pdata$row_ids)
   assert_factor(pdata$truth, len = n, null.ok = TRUE)
@@ -67,6 +68,7 @@ is_missing_prediction_data.PredictionDataClassif = function(pdata) { # nolint
 #' @param ... (one or more [PredictionData] objects).
 #' @export
 c.PredictionDataClassif = function(..., keep_duplicates = TRUE) {
+
   dots = list(...)
   assert_list(dots, "PredictionDataClassif")
   assert_flag(keep_duplicates)

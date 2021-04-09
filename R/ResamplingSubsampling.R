@@ -37,7 +37,8 @@
 #'
 #' # Internal storage:
 #' rss$instance$train # list of index vectors
-ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
+ResamplingSubsampling = R6Class("ResamplingSubsampling",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -49,17 +50,13 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
       ps$values = list(repeats = 30L, ratio = 2 / 3)
 
       super$initialize(id = "subsampling", param_set = ps, man = "mlr3::mlr_resamplings_subsampling")
-    }
-  ),
-
+    }),
   active = list(
     #' @template field_iters
     iters = function(rhs) {
       assert_ro_binding(rhs)
       as.integer(self$param_set$values$repeats)
-    }
-  ),
-
+    }),
   private = list(
     .sample = function(ids, ...) {
       pv = self$param_set$values
@@ -69,25 +66,22 @@ ResamplingSubsampling = R6Class("ResamplingSubsampling", inherit = Resampling,
       train = replicate(pv$repeats, sample.int(n, nr), simplify = FALSE)
       list(train = train, row_ids = ids)
     },
-
     .get_train = function(i) {
       self$instance$row_ids[self$instance$train[[i]]]
     },
-
     .get_test = function(i) {
       self$instance$row_ids[-self$instance$train[[i]]]
     },
-
     .combine = function(instances) {
       Reduce(function(lhs, rhs) {
         n = length(lhs$row_ids)
-        list(train =
-          Map(function(x, y) c(x, y + n), lhs$train, rhs$train),
-        row_ids = c(lhs$row_ids, rhs$row_ids)
+        list(
+          train =
+            Map(function(x, y) c(x, y + n), lhs$train, rhs$train),
+          row_ids = c(lhs$row_ids, rhs$row_ids)
         )
       }, instances)
-    }
-  )
+    })
 )
 
 #' @include mlr_resamplings.R

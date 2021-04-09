@@ -83,7 +83,8 @@ test_that("task argument 'format' is passed down", {
 })
 
 test_that("learners can request sparse data format", {
-  LearnerSparseTest = R6Class("LearnerRegrRpart", inherit = LearnerRegr,
+  LearnerSparseTest = R6Class("LearnerRegrRpart",
+    inherit = LearnerRegr,
     public = list(
       initialize = function(id = "regr.sparsetest") {
         super$initialize(
@@ -93,18 +94,14 @@ test_that("learners can request sparse data format", {
           properties = c("weights", "missings", "importance", "selected_features"),
           data_formats = c("Matrix", "data.table")
         )
-      }
-    ),
-
+      }),
     private = list(
       .train = function(task) {
         task$data(data_format = "Matrix")
       },
-
       .predict = function(task) {
         list(response = rep(task$class_names[1L], task$nrow))
-      }
-    )
+      })
   )
 
   td = cbind(y = 1:10, data)

@@ -34,7 +34,8 @@
 #'
 #' # Internal storage:
 #' rcv$instance # table
-ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
+ResamplingCV = R6Class("ResamplingCV",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -45,17 +46,13 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
       ps$values = list(folds = 10L)
 
       super$initialize(id = "cv", param_set = ps, man = "mlr3::mlr_resamplings_cv")
-    }
-  ),
-
+    }),
   active = list(
     #' @template field_iters
     iters = function(rhs) {
       assert_ro_binding(rhs)
       as.integer(self$param_set$values$folds)
-    }
-  ),
-
+    }),
   private = list(
     .sample = function(ids, ...) {
       data.table(
@@ -64,27 +61,22 @@ ResamplingCV = R6Class("ResamplingCV", inherit = Resampling,
         key = "fold"
       )
     },
-
     .get_train = function(i) {
       self$instance[!list(i), "row_id", on = "fold"][[1L]]
     },
-
     .get_test = function(i) {
       self$instance[list(i), "row_id", on = "fold"][[1L]]
     },
-
     .combine = function(instances) {
       rbindlist(instances, use.names = TRUE)
     },
-
     deep_clone = function(name, value) {
       switch(name,
         "instance" = copy(value),
         "param_set" = value$clone(deep = TRUE),
         value
       )
-    }
-  )
+    })
 )
 
 #' @include mlr_resamplings.R

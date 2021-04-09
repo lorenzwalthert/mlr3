@@ -43,6 +43,7 @@ is_missing_prediction_data.PredictionDataRegr = function(pdata) { # nolint
 #' @rdname PredictionData
 #' @export
 c.PredictionDataRegr = function(..., keep_duplicates = TRUE) { # nolint
+
   dots = list(...)
   assert_list(dots, "PredictionDataRegr")
   assert_flag(keep_duplicates)

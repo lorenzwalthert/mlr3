@@ -35,7 +35,8 @@
 #'
 #' # Internal storage:
 #' rho$instance # simple list
-ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
+ResamplingHoldout = R6Class("ResamplingHoldout",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -51,7 +52,6 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
     #' @template field_iters
     iters = 1L
   ),
-
   private = list(
     .sample = function(ids, ...) {
       n = length(ids)
@@ -59,15 +59,12 @@ ResamplingHoldout = R6Class("ResamplingHoldout", inherit = Resampling,
       in_train[sample.int(n, round(n * self$param_set$values$ratio))] = TRUE
       list(train = ids[in_train], test = ids[!in_train])
     },
-
     .get_train = function(i) {
       self$instance$train
     },
-
     .get_test = function(i) {
       self$instance$test
     },
-
     .combine = function(instances) {
       list(train = do.call(c, map(instances, "train")), test = do.call(c, map(instances, "test")))
     })

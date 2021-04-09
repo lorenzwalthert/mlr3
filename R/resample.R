@@ -62,6 +62,7 @@
 #' bmr2 = as_benchmark_result(rr_featureless)
 #' print(bmr1$combine(bmr2))
 resample = function(task, learner, resampling, store_models = FALSE, store_backends = TRUE) {
+
   task = assert_task(as_task(task, clone = TRUE))
   learner = assert_learner(as_learner(learner, clone = TRUE))
   resampling = assert_resampling(as_resampling(resampling))

@@ -1,7 +1,9 @@
 #' @include DataBackend.R
-DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable = FALSE,
+DataBackendRbind = R6Class("DataBackendRbind",
+  inherit = DataBackend, cloneable = FALSE,
   public = list(
     initialize = function(b1, b2) {
+
       assert_backend(b1)
       assert_backend(b2)
       pk = b1$primary_key
@@ -17,8 +19,8 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
 
       super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
     },
-
     data = function(rows, cols, data_format = self$data_formats[1L]) {
+
       pk = self$primary_key
       qrows = unique(assert_numeric(rows))
       qcols = union(assert_names(cols, type = "unique"), pk)
@@ -34,49 +36,38 @@ DataBackendRbind = R6Class("DataBackendRbind", inherit = DataBackend, cloneable 
       # duplicate rows / reorder columns
       data[list(rows), intersect(cols, names(data)), nomatch = NULL, on = pk, with = FALSE]
     },
-
     head = function(n = 6L) {
       rows = head(self$rownames, n)
       self$data(rows, cols = self$colnames)
     },
-
     distinct = function(rows, cols, na_rm = TRUE) {
       cols = intersect(cols, self$colnames)
       d1 = private$.data$b1$distinct(rows, cols, na_rm = na_rm)
       d2 = private$.data$b2$distinct(rows, cols, na_rm = na_rm)
       set_names(map(cols, function(nn) union(d1[[nn]], d2[[nn]])), cols)
     },
-
     missings = function(rows, cols) {
       cols = intersect(cols, self$colnames)
       m1 = as.list(private$.data$b1$missings(rows, cols))
       m2 = as.list(private$.data$b2$missings(rows, cols))
       set_names(map_int(cols, function(nn) m1[[nn]] %??% 0L + m2[[nn]] %??% 0L), cols)
-    }
-  ),
-
+    }),
   active = list(
     rownames = function() {
       union(private$.data$b1$rownames, private$.data$b2$rownames)
     },
-
     colnames = function() {
       union(private$.data$b1$colnames, private$.data$b2$colnames)
     },
-
     nrow = function() {
       uniqueN(c(private$.data$b1$rownames, private$.data$b2$rownames))
     },
-
     ncol = function() {
       uniqueN(c(private$.data$b1$colnames, private$.data$b2$colnames))
-    }
-  ),
-
+    }),
   private = list(
     .calculate_hash = function() {
       data = private$.data
       hash(data$b1$hash, data$b2$hash)
-    }
-  )
+    })
 )

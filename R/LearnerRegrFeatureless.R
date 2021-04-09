@@ -21,7 +21,8 @@
 #'
 #' @template seealso_learner
 #' @export
-LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr,
+LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless",
+  inherit = LearnerRegr,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -59,9 +60,7 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
     #' @return `character(0)`.
     selected_features = function() {
       character()
-    }
-  ),
-
+    }),
   private = list(
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
@@ -75,14 +74,12 @@ LearnerRegrFeatureless = R6Class("LearnerRegrFeatureless", inherit = LearnerRegr
       }
       set_class(list(location = location, dispersion = dispersion, features = task$feature_names), "regr.featureless_model")
     },
-
     .predict = function(task) {
       n = task$nrow
       response = rep(self$model$location, n)
       se = if (self$predict_type == "se") rep(self$model$dispersion, n) else NULL
       list(response = response, se = se)
-    }
-  )
+    })
 )
 
 #' @include mlr_learners.R

@@ -18,9 +18,11 @@
 #' @keywords internal
 #' @export
 #' @examples
-#' TaskSupervised$new("penguins", task_type = "classif", backend = palmerpenguins::penguins,
+#' TaskSupervised$new("penguins",
+#'   task_type = "classif", backend = palmerpenguins::penguins,
 #'   target = "species")
-TaskSupervised = R6Class("TaskSupervised", inherit = Task,
+TaskSupervised = R6Class("TaskSupervised",
+  inherit = Task,
   public = list(
 
     #' @description
@@ -40,6 +42,5 @@ TaskSupervised = R6Class("TaskSupervised", inherit = Task,
     #' Defaults to all rows with role "use".
     truth = function(rows = NULL) {
       self$data(rows, cols = self$target_names)
-    }
-  )
+    })
 )

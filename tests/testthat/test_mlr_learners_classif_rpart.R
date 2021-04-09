@@ -4,7 +4,8 @@ test_that("autotest", {
   result = run_autotest(learner)
   expect_true(result, info = result$error)
 
-  exclude = c("formula", "data", "weights", "subset", "na.action", "method", "model",
+  exclude = c(
+    "formula", "data", "weights", "subset", "na.action", "method", "model",
     "x", "y", "parms", "control", "cost")
   result = run_paramtest(learner, rpart::rpart, exclude)
   expect_true(result, info = result$error)

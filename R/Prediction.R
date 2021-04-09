@@ -92,9 +92,7 @@ Prediction = R6Class("Prediction",
       measures = assert_measures(as_measures(measures, task_type = self$task_type), task = task, learner = learner)
       scores = map_dbl(measures, function(m) m$score(prediction = self, task = task, learner = learner, train_set = train_set))
       set_names(scores, ids(measures))
-    }
-  ),
-
+    }),
   active = list(
     #' @field row_ids (`integer()`)\cr
     #'   Vector of row ids for which predictions are stored.
@@ -115,8 +113,7 @@ Prediction = R6Class("Prediction",
     missing = function(rhs) {
       assert_ro_binding(rhs)
       is_missing_prediction_data(self$data)
-    }
-  )
+    })
 )
 
 #' @export

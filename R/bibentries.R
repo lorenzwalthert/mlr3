@@ -12,7 +12,6 @@ bibentries = c(
     title = "The Species Problem in Iris",
     journal = "Annals of the Missouri Botanical Garden"
   ),
-
   bischl_2012 = bibentry("article",
     title = "Resampling Methods for Meta-Model Validation with Recommendations for Evolutionary Computation",
     author = "Bernd Bischl and Olaf Mersmann and Heike Trautmann and Claus Weihs",
@@ -25,7 +24,6 @@ bibentries = c(
     pages = "249--275",
     doi = "10.1162/evco_a_00069"
   ),
-
   breiman_1984 = bibentry("book",
     title = "Classification And Regression Trees",
     author = "Leo Breiman and Jerome H. Friedman and Richard A. Olshen and Charles J. Stone",
@@ -33,7 +31,6 @@ bibentries = c(
     publisher = "Routledge",
     doi = "10.1201/9781315139470"
   ),
-
   dua_2017 = bibentry("misc",
     title = "{UCI} Machine Learning Repository",
     author = "Dua, Dheeru and Graff, Casey",
@@ -41,7 +38,6 @@ bibentries = c(
     url = "http://archive.ics.uci.edu/ml/",
     institution = "University of California, Irvine, School of Information and Computer Sciences"
   ),
-
   gorman2014 = bibentry("article",
     doi = "10.1371/journal.pone.0090081",
     year = "2014",
@@ -55,7 +51,6 @@ bibentries = c(
     title = "Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis)",
     journal = "{PLoS} {ONE}"
   ),
-
   gromping_2019 = bibentry("techreport",
     title = "South German Credit Data: Correcting a Widely Used Data Set",
     author = "Ulrike Gr\u00f6mping",
@@ -65,7 +60,6 @@ bibentries = c(
     type = "Reports in Mathematics, Physics and Chemistry",
     institution = "Department II, Beuth University of Applied Sciences Berlin"
   ),
-
   sasaki_2007 = bibentry("article",
     title = "The truth of the F-measure",
     author = "Sasaki, Yutaka",

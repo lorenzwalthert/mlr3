@@ -22,7 +22,8 @@
 #'
 #' @template seealso_learner
 #' @export
-LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
+LearnerClassifRpart = R6Class("LearnerClassifRpart",
+  inherit = LearnerClassif,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -71,9 +72,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
         stopf("No model stored")
       }
       setdiff(self$model$frame$var, "<leaf>")
-    }
-  ),
-
+    }),
   private = list(
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
@@ -84,7 +83,6 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
 
       invoke(rpart::rpart, formula = task$formula(), data = task$data(), .args = pv, .opts = allow_partial_matching)
     },
-
     .predict = function(task) {
       newdata = task$data(cols = task$feature_names)
       response = prob = NULL
@@ -98,8 +96,7 @@ LearnerClassifRpart = R6Class("LearnerClassifRpart", inherit = LearnerClassif,
       }
 
       list(response = response, prob = prob)
-    }
-  )
+    })
 )
 
 #' @include mlr_learners.R

@@ -102,7 +102,8 @@ assert_learnable = function(task, learner) {
   }
 
   if (task$task_type != learner$task_type) {
-    stopf("Type '%s' of %s does not match type '%s' of %s",
+    stopf(
+      "Type '%s' of %s does not match type '%s' of %s",
       task$task_type, task$format(), learner$task_type, learner$format())
   }
 
@@ -120,7 +121,8 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
 
   if (!is.null(task)) {
     if (!is_scalar_na(measure$task_type) && measure$task_type != task$task_type) {
-      stopf("Measure '%s' is not compatible with type '%s' of task '%s'",
+      stopf(
+        "Measure '%s' is not compatible with type '%s' of task '%s'",
         measure$id, task$task_type, task$id)
     }
 
@@ -132,7 +134,8 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
 
   if (!is.null(learner)) {
     if (!is_scalar_na(measure$task_type) && measure$task_type != learner$task_type) {
-      stopf("Measure '%s' is not compatible with type '%s' of learner '%s'",
+      stopf(
+        "Measure '%s' is not compatible with type '%s' of learner '%s'",
         measure$id, learner$task_type, learner$id)
     }
 
@@ -145,7 +148,8 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
 
     miss = setdiff(measure$predict_sets, learner$predict_sets)
     if (length(miss)) {
-      stopf("Measure '%s' needs predict set %s, but learner '%s' only predicted on sets %s",
+      stopf(
+        "Measure '%s' needs predict set %s, but learner '%s' only predicted on sets %s",
         measure$id, str_collapse(miss, quote = "'"), learner$id, str_collapse(learner$predict_sets, quote = "'"))
     }
   }

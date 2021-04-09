@@ -45,7 +45,8 @@
 #'
 #' # Internal storage:
 #' rrcv$instance # table
-ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
+ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -76,18 +77,14 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
     repeats = function(iters) {
       iters = assert_integerish(iters, any.missing = FALSE, coerce = TRUE)
       ((iters - 1L) %/% as.integer(self$param_set$values$folds)) + 1L
-    }
-  ),
-
+    }),
   active = list(
     #' @template field_iters
     iters = function(rhs) {
       assert_ro_binding(rhs)
       pv = self$param_set$values
       as.integer(pv$repeats) * as.integer(pv$folds)
-    }
-  ),
-
+    }),
   private = list(
     .sample = function(ids, ...) {
       pv = self$param_set$values
@@ -97,7 +94,6 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
         data.table(row_id = ids, rep = i, fold = shuffle(seq_len0(n) %% folds + 1L))
       })
     },
-
     .get_train = function(i) {
       i = as.integer(i) - 1L
       folds = as.integer(self$param_set$values$folds)
@@ -106,7 +102,6 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       ii = data.table(rep = rep, fold = seq_len(folds)[-fold])
       self$instance[ii, "row_id", on = names(ii), nomatch = NULL][[1L]]
     },
-
     .get_test = function(i) {
       i = as.integer(i) - 1L
       folds = as.integer(self$param_set$values$folds)
@@ -115,19 +110,16 @@ ResamplingRepeatedCV = R6Class("ResamplingRepeatedCV", inherit = Resampling,
       ii = data.table(rep = rep, fold = fold)
       self$instance[ii, "row_id", on = names(ii), nomatch = NULL][[1L]]
     },
-
     .combine = function(instances) {
       rbindlist(instances, use.names = TRUE)
     },
-
     deep_clone = function(name, value) {
       switch(name,
         "instance" = copy(value),
         "param_set" = value$clone(deep = TRUE),
         value
       )
-    }
-  )
+    })
 )
 
 #' @include mlr_resamplings.R

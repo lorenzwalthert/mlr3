@@ -3,6 +3,7 @@ learner_train = function(learner, task, row_ids = NULL) {
   # checks that the training was successful.
   # Exceptions here are possibly encapsulated, so that they get captured
   # and turned into log messages.
+
   train_wrapper = function(learner, task) {
     if (task$nrow == 0L) {
       stopf("Cannot fit Learner '%s' on task '%s': No observations", learner$id, task$id)
@@ -25,7 +26,8 @@ learner_train = function(learner, task, row_ids = NULL) {
   # subset to train set w/o cloning
   if (!is.null(row_ids)) {
     lg$debug("Subsetting task '%s' to %i rows",
-      task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
+      task$id, length(row_ids),
+      task = task$clone(), row_ids = row_ids)
 
     prev_use = task$row_roles$use
     on.exit({
@@ -39,7 +41,8 @@ learner_train = function(learner, task, row_ids = NULL) {
   learner$state = list()
 
   lg$debug("Calling train method of Learner '%s' on task '%s' with %i observations",
-    learner$id, task$id, task$nrow, learner = learner$clone())
+    learner$id, task$id, task$nrow,
+    learner = learner$clone())
 
   # call train_wrapper with encapsulation
   result = encapsulate(learner$encapsulate["train"],
@@ -58,17 +61,20 @@ learner_train = function(learner, task, row_ids = NULL) {
 
   if (is.null(result$result)) {
     lg$debug("Learner '%s' on task '%s' failed to fit a model",
-      learner$id, task$id, learner = learner$clone(), messages = result$log$msg)
+      learner$id, task$id,
+      learner = learner$clone(), messages = result$log$msg)
   } else {
     lg$debug("Learner '%s' on task '%s' succeeded to fit a model",
-      learner$id, task$id, learner = learner$clone(), result = result$result, messages = result$log$msg)
+      learner$id, task$id,
+      learner = learner$clone(), result = result$result, messages = result$log$msg)
   }
 
   # fit fallback learner
   fb = learner$fallback
   if (!is.null(fb)) {
     lg$debug("Calling train method of fallback '%s' on task '%s' with %i observations",
-      fb$id, task$id, task$nrow, learner = fb$clone())
+      fb$id, task$id, task$nrow,
+      learner = fb$clone())
 
     fb = assert_learner(as_learner(fb))
     require_namespaces(fb$packages)
@@ -76,7 +82,8 @@ learner_train = function(learner, task, row_ids = NULL) {
     learner$state$fallback_state = fb$state
 
     lg$debug("Fitted fallback learner '%s'",
-      fb$id, learner = fb$clone())
+      fb$id,
+      learner = fb$clone())
   }
 
   learner
@@ -87,6 +94,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
   # This wrapper calls learner$predict, and additionally performs some basic
   # checks that the prediction was successful.
   # Exceptions here are possibly encapsulated, so that they get captured and turned into log messages.
+
   predict_wrapper = function(task, learner) {
     if (is.null(learner$state$model)) {
       stopf("No trained model available for learner '%s' on task '%s'", learner$id, task$id)
@@ -109,7 +117,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
   # subset to test set w/o cloning
   if (!is.null(row_ids)) {
     lg$debug("Subsetting task '%s' to %i rows",
-      task$id, length(row_ids), task = task$clone(), row_ids = row_ids)
+      task$id, length(row_ids),
+      task = task$clone(), row_ids = row_ids)
 
     prev_use = task$row_roles$use
     on.exit({
@@ -129,14 +138,16 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
   if (is.null(learner$state$model)) {
     lg$debug("Learner '%s' has no model stored",
-      learner$id, learner = learner$clone())
+      learner$id,
+      learner = learner$clone())
 
     prediction = NULL
     learner$state$predict_time = NA_real_
   } else {
     # call predict with encapsulation
     lg$debug("Calling predict method of Learner '%s' on task '%s' with %i observations",
-      learner$id, task$id, task$nrow, learner = learner$clone())
+      learner$id, task$id, task$nrow,
+      learner = learner$clone())
 
     result = encapsulate(
       learner$encapsulate["predict"],
@@ -152,7 +163,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
     learner$state$predict_time = result$elapsed
 
     lg$debug("Learner '%s' returned an object of class '%s'",
-      learner$id, class(prediction)[1L], learner = learner$clone(), prediction = prediction, messages = result$log$msg)
+      learner$id, class(prediction)[1L],
+      learner = learner$clone(), prediction = prediction, messages = result$log$msg)
   }
 
 
@@ -168,7 +180,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
     if (is.null(prediction)) {
       lg$debug("Creating new Prediction using fallback '%s'",
-        fb$id, learner = fb$clone())
+        fb$id,
+        learner = fb$clone())
 
       learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner for predictions")
       prediction = predict_fb(task$row_ids)
@@ -176,7 +189,8 @@ learner_predict = function(learner, task, row_ids = NULL) {
       miss_ids = is_missing_prediction_data(prediction)
 
       lg$debug("Imputing %i/%i predictions using fallback '%s'",
-        length(miss_ids), length(prediction$row_ids), fb$id, learner = fb$clone())
+        length(miss_ids), length(prediction$row_ids), fb$id,
+        learner = fb$clone())
 
       if (length(miss_ids)) {
         learner$state$log = append_log(learner$state$log, "predict", "output", "Using fallback learner to impute predictions")
@@ -191,6 +205,7 @@ learner_predict = function(learner, task, row_ids = NULL) {
 
 
 workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL, store_models = FALSE, pb = NULL) {
+
   if (!is.null(pb)) {
     pb(sprintf("%s|%s|i:%i", task$id, learner$id, iteration))
   }
@@ -199,7 +214,8 @@ workhorse = function(iteration, task, learner, resampling, lgr_threshold = NULL,
     lg$set_threshold(lgr_threshold)
   }
 
-  lg$info("Applying learner '%s' on task '%s' (iter %i/%i)",
+  lg$info(
+    "Applying learner '%s' on task '%s' (iter %i/%i)",
     learner$id, task$id, iteration, resampling$iters)
 
   sets = list(

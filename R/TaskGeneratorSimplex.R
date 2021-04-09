@@ -46,19 +46,15 @@ TaskGeneratorSimplex = R6Class("TaskGeneratorSimplex",
     #'   Additional arguments passed to [plot()].
     plot = function(n = 200L, pch = 19L, ...) {
       plot(private$.generate_obj(n), pch = pch, ...)
-    }
-  ),
-
+    }),
   private = list(
     .generate_obj = function(n) {
       invoke(mlbench::mlbench.simplex, n = n, .args = self$param_set$values, .opts = allow_partial_matching)
     },
-
     .generate = function(n) {
       obj = private$.generate_obj(n)
       TaskClassif$new(sprintf("%s_%i", self$id, n), convert_mlbench(obj), target = "y")
-    }
-  )
+    })
 )
 
 #' @include mlr_task_generators.R

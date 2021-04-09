@@ -25,7 +25,8 @@ test_that("grouping", {
 
 test_that("#518", {
   with_seed(36, {
-    test_df = data.frame(feat1 = runif(3000),
+    test_df = data.frame(
+      feat1 = runif(3000),
       feat2 = runif(3000),
       target = runif(3000),
       group = sample(paste0("g", 1:100), 3000, replace = TRUE)

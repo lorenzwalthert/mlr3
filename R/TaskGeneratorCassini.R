@@ -42,21 +42,17 @@ TaskGeneratorCassini = R6Class("TaskGeneratorCassini",
     #'   Additional arguments passed to [plot()].
     plot = function(n = 200L, pch = 19L, ...) {
       plot(private$.generate_obj(n), pch = pch, ...)
-    }
-  ),
-
+    }),
   private = list(
     .generate_obj = function(n) {
       pv = self$param_set$values
       relsize = c(pv$relsize1 %??% 2L, pv$relsize2 %??% 2L, pv$relsize3 %??% 1L)
       invoke(mlbench::mlbench.cassini, n = n, .args = list(relsize = relsize), .opts = allow_partial_matching)
     },
-
     .generate = function(n) {
       obj = private$.generate_obj(n)
       TaskClassif$new(sprintf("%s_%i", self$id, n), convert_mlbench(obj), target = "y")
-    }
-  )
+    })
 )
 
 #' @include mlr_task_generators.R

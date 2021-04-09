@@ -35,13 +35,14 @@
 #' # get a specific learner from mlr_learners:
 #' mlr_learners$get("regr.rpart")
 #' lrn("classif.featureless")
-LearnerRegr = R6Class("LearnerRegr", inherit = Learner,
+LearnerRegr = R6Class("LearnerRegr",
+  inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(id, param_set = ps(), predict_types = "response", feature_types = character(), properties = character(), data_formats = "data.table", packages = character(), man = NA_character_) {
-      super$initialize(id = id, task_type = "regr", param_set = param_set, feature_types = feature_types,
+      super$initialize(
+        id = id, task_type = "regr", param_set = param_set, feature_types = feature_types,
         predict_types = predict_types, properties = properties, data_formats = data_formats, packages = packages, man = man)
-    }
-  )
+    })
 )

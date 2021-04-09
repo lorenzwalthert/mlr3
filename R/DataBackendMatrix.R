@@ -29,7 +29,8 @@
 #' b$head()
 #' b$data(1:3, b$colnames, data_format = "Matrix")
 #' b$data(1:3, b$colnames, data_format = "data.table")
-DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneable = FALSE,
+DataBackendMatrix = R6Class("DataBackendMatrix",
+  inherit = DataBackend, cloneable = FALSE,
   public = list(
 
     #' @description
@@ -40,6 +41,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     #' @param dense [data.frame()].
     #'   Dense data, converted to [data.table::data.table()].
     initialize = function(data, dense = NULL, primary_key = NULL) {
+
       require_namespaces("Matrix")
       assert_class(data, "Matrix")
       assert_names(colnames(data), type = "unique")
@@ -62,6 +64,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     #' Rows are guaranteed to be returned in the same order as `rows`, columns may be returned in an arbitrary order.
     #' Duplicated row ids result in duplicated rows, duplicated column names lead to an exception.
     data = function(rows, cols, data_format = "data.table") {
+
       assert_integerish(rows, coerce = TRUE)
       assert_names(cols, type = "unique")
       assert_choice(data_format, self$data_formats)
@@ -102,7 +105,8 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
 
           # update the column vector with new dummy names (this preserves the order)
           cols = Reduce(function(cols, name) replace_with(cols, name, colnames(dummies[[name]])),
-            names(dummies), init = cols)
+            names(dummies),
+            init = cols)
           dense = remove_named(dense, factors)
         } else {
           dummies = NULL
@@ -163,9 +167,7 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
       )
 
       res[reorder_vector(names(res), cols)]
-    }
-  ),
-
+    }),
   active = list(
     #' @field rownames (`integer()`)\cr
     #' Returns vector of all distinct row identifiers, i.e. the contents of the primary key column.
@@ -193,19 +195,15 @@ DataBackendMatrix = R6Class("DataBackendMatrix", inherit = DataBackend, cloneabl
     ncol = function(rhs) {
       assert_ro_binding(rhs)
       ncol(private$.data$sparse) + ncol(private$.data$dense)
-    }
-  ),
-
+    }),
   private = list(
     .calculate_hash = function() {
       hash(private$.data)
     },
-
     .translate_rows = function(rows) {
       rows = assert_integerish(rows, coerce = TRUE)
       private$.data$dense[list(rows), nomatch = NULL, on = self$primary_key, which = TRUE]
-    }
-  )
+    })
 )
 
 #' @param data ([Matrix::Matrix()])\cr

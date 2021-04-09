@@ -26,17 +26,14 @@ TaskGeneratorFriedman1 = R6Class("TaskGeneratorFriedman1",
       )
 
       super$initialize(id = "friedman1", "regr", "mlbench", ps, man = "mlr3::mlr_task_generators_friedman1")
-    }
-  ),
-
+    }),
   private = list(
     .generate = function(n) {
       obj = invoke(mlbench::mlbench.friedman1, n = n, .args = self$param_set$values)
       colnames(obj$x) = c(sprintf("important%i", 1:5), sprintf("unimportant%i", 1:5))
       data = insert_named(as.data.table(obj$x), list(y = obj$y))
       TaskRegr$new(sprintf("%s_%i", self$id, n), data, target = "y")
-    }
-  )
+    })
 )
 
 #' @include mlr_task_generators.R

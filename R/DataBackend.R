@@ -26,7 +26,8 @@
 #'
 #' @export
 #' @examples
-#' data = data.table::data.table(id = 1:5, x = runif(5),
+#' data = data.table::data.table(
+#'   id = 1:5, x = runif(5),
 #'   y = sample(letters[1:3], 5, replace = TRUE))
 #'
 #' b = DataBackendDataTable$new(data, primary_key = "id")
@@ -35,7 +36,8 @@
 #' b$data(rows = 1:2, cols = "x")
 #' b$distinct(rows = b$rownames, "y")
 #' b$missings(rows = b$rownames, cols = names(data))
-DataBackend = R6Class("DataBackend", cloneable = FALSE,
+DataBackend = R6Class("DataBackend",
+  cloneable = FALSE,
   public = list(
     #' @field primary_key (`character(1)`)\cr
     #' Column name of the primary key column of unique integer row ids.
@@ -82,9 +84,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
       if (nr > 6L) {
         catf("[...] (%i rows omitted)", nr - 6L)
       }
-    }
-  ),
-
+    }),
   active = list(
     #' @template field_hash
     hash = function(rhs) {
@@ -95,9 +95,7 @@ DataBackend = R6Class("DataBackend", cloneable = FALSE,
         return(private$.hash)
       }
       private$.hash = assert_string(rhs)
-    }
-  ),
-
+    }),
   private = list(
     .data = NULL,
     .hash = NA_character_

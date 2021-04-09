@@ -63,9 +63,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
         minimize = TRUE,
         man = "mlr3::mlr_measures_classif.costs"
       )
-    }
-  ),
-
+    }),
   active = list(
     #' @field costs (numeric `matrix()`)\cr
     #' Matrix of costs (truth in columns, predicted response in rows).
@@ -81,13 +79,11 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
       if (max(rhs) <= 0) {
         self$range[2L] = 0
       }
-    }
-  ),
-
+    }),
   private = list(
     .costs = NULL,
-
     .score = function(prediction, task, ...) {
+
       costs = assert_cost_matrix(private$.costs, task)
       confusion = table(response = prediction$response, truth = prediction$truth, useNA = "ifany")
 
@@ -103,8 +99,7 @@ MeasureClassifCosts = R6Class("MeasureClassifCosts",
         perf = perf / sum(confusion)
       }
       perf
-    }
-  )
+    })
 )
 
 #' @include mlr_measures.R

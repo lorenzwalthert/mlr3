@@ -104,7 +104,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' Printer.
     print = function() {
       tab = self$aggregate(measures = list(), conditions = TRUE)
-      catf("%s of %i rows with %i resampling runs",
+      catf(
+        "%s of %i rows with %i resampling runs",
         format(self), self$data$iterations(), nrow(tab))
       if (nrow(tab)) {
         tab = remove_named(tab, c("uhash", "resample_result"))
@@ -161,6 +162,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return [data.table::data.table()].
     score = function(measures = NULL, ids = TRUE, conditions = FALSE, predict_sets = "test") {
+
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
       assert_flag(conditions)
@@ -182,7 +184,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
 
       set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets))
 
-      cns = c("uhash", "nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
+      cns = c(
+        "uhash", "nr", "task", "task_id", "learner", "learner_id", "resampling", "resampling_id",
         "iteration", "prediction", "warnings", "errors", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
@@ -215,6 +218,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #'
     #' @return [data.table::data.table()].
     aggregate = function(measures = NULL, ids = TRUE, uhashes = FALSE, params = FALSE, conditions = FALSE) {
+
       measures = assert_measures(as_measures(measures, task_type = self$task_type))
       assert_flag(ids)
       assert_flag(uhashes)
@@ -267,7 +271,8 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
       tab = insert_named(tab, scores)
 
-      cns = c("uhash", "nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters",
+      cns = c(
+        "uhash", "nr", "resample_result", "task_id", "learner_id", "resampling_id", "iters",
         "warnings", "errors", "params", ids(measures))
       cns = intersect(cns, names(tab))
       tab[, cns, with = FALSE]
@@ -297,6 +302,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
     #' the object in its previous state.
     filter = function(task_ids = NULL, task_hashes = NULL, learner_ids = NULL, learner_hashes = NULL,
       resampling_ids = NULL, resampling_hashes = NULL) {
+
       learner_phashes = NULL
 
       filter_if_not_null = function(column, hashes) {
@@ -359,9 +365,7 @@ BenchmarkResult = R6Class("BenchmarkResult",
       }
 
       ResampleResult$new(self$data, view = needle)
-    }
-  ),
-
+    }),
   active = list(
     #' @field task_type (`character(1)`)\cr
     #' Task type of objects in the `BenchmarkResult`.
@@ -448,14 +452,11 @@ BenchmarkResult = R6Class("BenchmarkResult",
     uhashes = function(rhs) {
       assert_ro_binding(rhs)
       self$data$uhashes()
-    }
-  ),
-
+    }),
   private = list(
     deep_clone = function(name, value) {
       if (name == "data") value$clone(deep = TRUE) else value
-    }
-  )
+    })
 )
 
 #' @export

@@ -70,7 +70,8 @@ ResultData = R6Class("ResultData",
             set(tasks, j = "task", value = lapply(tasks$task, task_rm_backend))
           }
 
-          self$data = list(fact = fact, uhashes = uhashes, tasks = tasks, learners = learners,
+          self$data = list(
+            fact = fact, uhashes = uhashes, tasks = tasks, learners = learners,
             resamplings = resamplings, learner_components = learner_components)
         }
       }
@@ -135,7 +136,8 @@ ResultData = R6Class("ResultData",
         tab = self$data$fact[ii, c("learner_hash", "learner_phash", "learner_state"), with = FALSE]
         tab = merge(tab, self$data$learners, by = "learner_phash", sort = FALSE)
         tab = merge(tab, self$data$learner_components, by = "learner_hash", sort = TRUE)
-        set(tab, j = "learner",
+        set(tab,
+          j = "learner",
           value = reassemble_learners(tab$learner, states = tab$learner_state, param_vals = tab$learner_param_vals))
       } else {
         tab = unique(self$data$fact[ii, c("learner_hash", "learner_phash"), with = FALSE], by = "learner_hash")
@@ -251,6 +253,7 @@ ResultData = R6Class("ResultData",
     #'   Convert [PredictionData] to [Prediction]?
     #' @template param_predict_sets
     as_data_table = function(view = NULL, reassemble_learners = TRUE, convert_predictions = TRUE, predict_sets = "test") {
+
       ii = private$get_view_index(view)
 
       tab = self$data$fact[ii]
@@ -267,10 +270,10 @@ ResultData = R6Class("ResultData",
         if (convert_predictions) {
           set(tab, j = "prediction", value = as_predictions(tab$prediction, predict_sets = predict_sets))
         }
-
       }
 
-      cns = c("uhash", "task", "task_hash", "learner", "learner_hash", "learner_param_vals", "resampling",
+      cns = c(
+        "uhash", "task", "task_hash", "learner", "learner_hash", "learner_param_vals", "resampling",
         "resampling_hash", "iteration", "prediction")
       merge(self$data$uhashes, tab[, cns, with = FALSE], by = "uhash", sort = FALSE)
     },
@@ -286,9 +289,7 @@ ResultData = R6Class("ResultData",
       learner_state = NULL
       logs = map(self$data$fact[ii, learner_state], function(s) list(msg = get_log_condition(s, condition)))
       rbindlist(logs, idcol = "iteration", use.names = TRUE)
-    }
-  ),
-
+    }),
   active = list(
     #' @field task_type (`character(1)`)\cr
     #'   Returns the task type of stored objects, e.g. `"classif"` or `"regr"`.
@@ -299,41 +300,36 @@ ResultData = R6Class("ResultData",
         tab$task[[1L]]$task_type
       else
         NULL
-    }
-  ),
-
+    }),
   private = list(
     get_view_index = function(view) {
       if (is.null(view))
         return(TRUE)
       self$data$fact[list(view), on = "uhash", nomatch = NULL, which = TRUE]
     },
-
     deep_clone = function(name, value) {
       if (name == "data") {
         lapply(self$data, copy)
       } else {
         value
       }
-    }
-  )
+    })
 )
 
 #######################################################################################################################
 ### constructor
 #######################################################################################################################
 star_init = function() {
+
   fact = data.table(
     uhash = character(),
     iteration = integer(),
     learner_state = list(),
     prediction = list(),
-
     task_hash = character(),
     learner_hash = character(),
     learner_phash = character(),
     resampling_hash = character(),
-
     key = c("uhash", "iteration")
   )
 
@@ -365,7 +361,8 @@ star_init = function() {
     key = "learner_hash"
   )
 
-  list(fact = fact, uhashes = uhashes, tasks = tasks, learners = learners,
+  list(
+    fact = fact, uhashes = uhashes, tasks = tasks, learners = learners,
     resamplings = resamplings, learner_components = learner_components)
 }
 

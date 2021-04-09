@@ -33,6 +33,7 @@
 #' predict(learner, task$data(1:3), predict_type = "prob")
 #' predict(learner, task$data(1:3), predict_type = "<Prediction>")
 predict.Learner = function(object, newdata, predict_type = NULL, ...) {
+
   assert_data_frame(newdata)
   assert_string(predict_type, null.ok = TRUE)
 

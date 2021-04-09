@@ -59,7 +59,8 @@
 #' # new predictions
 #' p$set_threshold(th)$response
 #' p$score(measures = msr("classif.ce"))
-PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
+PredictionClassif = R6Class("PredictionClassif",
+  inherit = Prediction,
   cloneable = FALSE,
   public = list(
     #' @description
@@ -143,10 +144,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
       ind = max.col(prob, ties.method = ties_method)
       self$data$response = factor(lvls[ind], levels = lvls)
       invisible(self)
-    }
-  ),
-
-
+    }),
   active = list(
     #' @field response (`factor()`)\cr
     #' Access to the stored predicted class labels.
@@ -168,8 +166,7 @@ PredictionClassif = R6Class("PredictionClassif", inherit = Prediction,
     confusion = function(rhs) {
       assert_ro_binding(rhs)
       table(response = self$data$response, truth = self$data$truth, useNA = "ifany")
-    }
-  )
+    })
 )
 
 #' @export

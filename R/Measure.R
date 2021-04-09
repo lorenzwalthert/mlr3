@@ -160,6 +160,7 @@ Measure = R6Class("Measure",
     #'
     #' @return `numeric(1)`.
     score = function(prediction, task = NULL, learner = NULL, train_set = NULL) {
+
       assert_prediction(prediction)
 
       if ("requires_task" %in% self$properties && is.null(task)) {
@@ -209,17 +210,14 @@ Measure = R6Class("Measure",
       } else { # "micro"
         self$score(rr$prediction(self$predict_sets))
       }
-    }
-  ),
-
+    }),
   active = list(
     #' @template field_hash
     hash = function(rhs) {
       assert_ro_binding(rhs)
       fun = if (exists("score_internal", envir = self, inherits = FALSE)) self$score_internal else private$.score
       hash(class(self), self$id, self$predict_sets, fun, self$aggregator)
-    }
-  )
+    })
 )
 
 
@@ -280,11 +278,11 @@ score_measures = function(obj, measures, reassemble = TRUE, view = NULL) {
   tab = obj$data$as_data_table(view = view, reassemble_learners = reassemble_learners, convert_predictions = FALSE)
 
   for (measure in measures) {
-    score = pmap_dbl(tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],
+    score = pmap_dbl(
+      tab[, c("task", "learner", "resampling", "iteration", "prediction"), with = FALSE],
       function(task, learner, resampling, iteration, prediction) {
         score_single_measure(measure, task, learner, train_set = resampling$train_set(iteration), prediction)
-      }
-    )
+      })
     set(tab, j = measure$id, value = score)
   }
 

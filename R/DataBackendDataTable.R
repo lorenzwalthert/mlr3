@@ -27,7 +27,8 @@
 #'
 #' # alternative construction
 #' as_data_backend(palmerpenguins::penguins)
-DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
+DataBackendDataTable = R6Class("DataBackendDataTable",
+  inherit = DataBackend,
   cloneable = FALSE,
   public = list(
     #' @field compact_seq `logical(1)`\cr
@@ -107,9 +108,7 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     missings = function(rows, cols) {
       data = self$data(rows, cols)
       map_int(data, function(x) sum(is.na(x)))
-    }
-  ),
-
+    }),
   active = list(
     #' @field rownames (`integer()`)\cr
     #' Returns vector of all distinct row identifiers, i.e. the contents of the primary key column.
@@ -133,12 +132,9 @@ DataBackendDataTable = R6Class("DataBackendDataTable", inherit = DataBackend,
     #' Number of columns (variables), including the primary key column.
     ncol = function() {
       ncol(private$.data)
-    }
-  ),
-
+    }),
   private = list(
     .calculate_hash = function() {
       hash(self$compact_seq, private$.data)
-    }
-  )
+    })
 )

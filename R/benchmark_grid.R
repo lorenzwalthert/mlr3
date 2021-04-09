@@ -27,7 +27,8 @@
 #' }
 #'
 #' # manual construction of the grid with data.table::CJ()
-#' grid = data.table::CJ(task = tasks, learner = learners,
+#' grid = data.table::CJ(
+#'   task = tasks, learner = learners,
 #'   resampling = resamplings, sorted = FALSE)
 #'
 #' # manual instantiation (not suited for a fair comparison of learners!)
@@ -38,6 +39,7 @@
 #' benchmark(grid)
 #' }
 benchmark_grid = function(tasks, learners, resamplings) {
+
   tasks = assert_tasks(as_tasks(tasks))
   learners = assert_learners(as_learners(learners))
   resamplings = assert_resamplings(as_resamplings(resamplings))

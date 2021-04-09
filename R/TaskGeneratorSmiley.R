@@ -41,21 +41,17 @@ TaskGeneratorSmiley = R6Class("TaskGeneratorSmiley",
     #'   Additional arguments passed to [plot()].
     plot = function(n = 200L, pch = 19L, ...) {
       plot(private$.generate_obj(n), pch = pch, ...)
-    }
-  ),
-
+    }),
   private = list(
     .generate_obj = function(n) {
       obj = invoke(mlbench::mlbench.smiley, n = n, .args = self$param_set$values)
       colnames(obj$x) = sprintf("x.%i", seq_col(obj$x))
       obj
     },
-
     .generate = function(n) {
       obj = private$.generate_obj(n)
       TaskClassif$new(sprintf("%s_%i", self$id, n), convert_mlbench(obj), target = "y")
-    }
-  )
+    })
 )
 
 #' @include mlr_task_generators.R

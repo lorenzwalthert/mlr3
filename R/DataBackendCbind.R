@@ -1,6 +1,8 @@
-DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable = FALSE,
+DataBackendCbind = R6Class("DataBackendCbind",
+  inherit = DataBackend, cloneable = FALSE,
   public = list(
     initialize = function(b1, b2) {
+
       assert_backend(b1)
       assert_backend(b2)
       pk = b1$primary_key
@@ -16,7 +18,6 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
 
       super$initialize(list(b1 = b1, b2 = b2), pk, "data.table")
     },
-
     data = function(rows, cols, data_format = self$data_formats[1L]) {
 
       pk = self$primary_key
@@ -34,49 +35,38 @@ DataBackendCbind = R6Class("DataBackendCbind", inherit = DataBackend, cloneable 
       # duplicate rows / reorder columns
       data[list(rows), intersect(cols, names(data)), on = pk, with = FALSE, nomatch = NULL]
     },
-
     head = function(n = 6L) {
       rows = head(self$rownames, n)
       self$data(rows = rows, cols = self$colnames)
     },
-
     distinct = function(rows, cols, na_rm = TRUE) {
       d2 = private$.data$b2$distinct(rows, cols, na_rm = na_rm)
       d1 = private$.data$b1$distinct(rows, setdiff(cols, names(d2)), na_rm = na_rm)
       res = c(d1, d2)
       res[reorder_vector(names(res), cols)]
     },
-
     missings = function(rows, cols) {
       m2 = private$.data$b2$missings(rows, cols)
       m1 = private$.data$b1$missings(rows, setdiff(cols, names(m2)))
       res = c(m1, m2)
       res[reorder_vector(names(res), cols)]
-    }
-  ),
-
+    }),
   active = list(
     rownames = function() {
       union(private$.data$b1$rownames, private$.data$b2$rownames)
     },
-
     colnames = function() {
       union(private$.data$b1$colnames, private$.data$b2$colnames)
     },
-
     nrow = function() {
       uniqueN(c(private$.data$b1$rownames, private$.data$b2$rownames))
     },
-
     ncol = function() {
       uniqueN(c(private$.data$b1$colnames, private$.data$b2$colnames))
-    }
-  ),
-
+    }),
   private = list(
     .calculate_hash = function() {
       data = private$.data
       hash(data$b1$hash, data$b2$hash)
-    }
-  )
+    })
 )

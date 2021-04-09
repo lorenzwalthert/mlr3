@@ -34,17 +34,14 @@ MeasureOOBError = R6Class("MeasureOOBError",
         minimize = TRUE,
         man = "mlr3::mlr_measures_oob_error"
       )
-    }
-  ),
-
+    }),
   private = list(
     .score = function(prediction, learner, ...) {
       if ("oob_error" %nin% learner$properties) {
         return(NA_real_)
       }
       learner$oob_error()
-    }
-  )
+    })
 )
 
 #' @include mlr_measures.R

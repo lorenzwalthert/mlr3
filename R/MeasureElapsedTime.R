@@ -47,14 +47,11 @@ MeasureElapsedTime = R6Class("MeasureElapsedTime",
         man = "mlr3::mlr_measures_elapsed_time"
       )
       self$stages = assert_subset(stages, c("train", "predict"), empty.ok = FALSE)
-    }
-  ),
-
+    }),
   private = list(
     .score = function(prediction, learner, ...) {
       sum(unlist(learner$state[sprintf("%s_time", self$stages)]))
-    }
-  )
+    })
 )
 
 #' @include mlr_measures.R

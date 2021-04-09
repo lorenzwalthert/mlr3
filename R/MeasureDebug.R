@@ -42,17 +42,14 @@ MeasureDebug = R6Class("MeasureDebug",
         properties = "na_score",
         man = "mlr3::mlr_measures_debug"
       )
-    }
-  ),
-
+    }),
   private = list(
     .score = function(prediction, ...) {
       na_ratio = assert_number(self$na_ratio, lower = 0, upper = 1)
       if (self$na_ratio > runif(1L))
         return(NA_integer_)
       length(prediction$row_ids)
-    }
-  )
+    })
 )
 
 #' @include mlr_measures.R

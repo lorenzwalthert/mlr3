@@ -40,6 +40,7 @@
 #' rdata = as_result_data(task, learners, resampling, iterations, predictions)
 #' ResampleResult$new(rdata)
 as_result_data = function(task, learners, resampling, iterations, predictions, learner_states = NULL, store_backends = TRUE) {
+
   assert_integer(iterations, any.missing = FALSE, lower = 1L, upper = resampling$iters, unique = TRUE)
   n = length(iterations)
 

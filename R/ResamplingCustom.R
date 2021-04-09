@@ -24,7 +24,8 @@
 #'
 #' rc$train_set(1)
 #' rc$test_set(1)
-ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
+ResamplingCustom = R6Class("ResamplingCustom",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -55,9 +56,7 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
       self$task_hash = task$hash
       self$task_nrow = task$nrow
       invisible(self)
-    }
-  ),
-
+    }),
   active = list(
     #' @template field_iters
     iters = function(rhs) {
@@ -72,18 +71,14 @@ ResamplingCustom = R6Class("ResamplingCustom", inherit = Resampling,
         return(NA_character_)
       }
       hash(class(self), self$id, self$param_set$values, self$instance)
-    }
-  ),
-
+    }),
   private = list(
     .get_train = function(i) {
       self$instance$train[[i]]
     },
-
     .get_test = function(i) {
       self$instance$test[[i]]
-    }
-  )
+    })
 )
 
 #' @include mlr_resamplings.R

@@ -46,7 +46,8 @@
 #'
 #' # task_train and task_predict are the input tasks for train() and predict()
 #' names(learner$model)
-LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
+LearnerClassifDebug = R6Class("LearnerClassifDebug",
+  inherit = LearnerClassif,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -73,11 +74,10 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
         man = "mlr3::mlr_learners_classif.debug",
         data_formats = c("data.table", "Matrix")
       )
-    }
-  ),
-
+    }),
   private = list(
     .train = function(task) {
+
       pv = self$param_set$get_values(tags = "train")
       roll = function(name) {
         name %in% names(pv) && pv[[name]] > runif(1L)
@@ -102,8 +102,8 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
       set_class(model, "classif.debug_model")
     },
-
     .predict = function(task) {
+
       n = task$nrow
       pv = self$param_set$get_values(tags = "predict")
       lookup = function(name) {
@@ -150,8 +150,7 @@ LearnerClassifDebug = R6Class("LearnerClassifDebug", inherit = LearnerClassif,
       }
 
       list(response = response, prob = prob)
-    }
-  )
+    })
 )
 
 #' @include mlr_learners.R

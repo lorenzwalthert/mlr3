@@ -29,7 +29,8 @@ TaskGeneratorMoons = R6Class("TaskGeneratorMoons",
       )
       ps$values = list(sigma = 1)
 
-      super$initialize(id = "moons", task_type = "classif", param_set = ps,
+      super$initialize(
+        id = "moons", task_type = "classif", param_set = ps,
         man = "mlr3::mlr_task_generators_moons")
     },
 
@@ -44,9 +45,7 @@ TaskGeneratorMoons = R6Class("TaskGeneratorMoons",
     plot = function(n = 200L, pch = 19L, ...) {
       tab = private$.generate_obj(n)
       plot(tab$x1, tab$x2, pch = pch, col = tab$y)
-    }
-  ),
-
+    }),
   private = list(
     .generate_obj = function(n) {
       sigma = self$param_set$values$sigma
@@ -62,12 +61,10 @@ TaskGeneratorMoons = R6Class("TaskGeneratorMoons",
         x2 = 10 * sin(x) + rnorm(n, mean = mu, sd = sigma)
       )
     },
-
     .generate = function(n) {
       tab = private$.generate_obj(n)
       TaskClassif$new(sprintf("%s_%i", self$id, n), tab, target = "y")
-    }
-  )
+    })
 )
 
 #' @include mlr_task_generators.R

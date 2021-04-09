@@ -97,6 +97,7 @@ Task = R6Class("Task",
     #'
     #' Note that this object is typically constructed via a derived classes, e.g. [TaskClassif] or [TaskRegr].
     initialize = function(id, task_type, backend, extra_args = list()) {
+
       self$id = assert_string(id, min.chars = 1L)
       self$task_type = assert_choice(task_type, mlr_reflections$task_types$type)
       if (!inherits(backend, "DataBackend")) {
@@ -109,12 +110,13 @@ Task = R6Class("Task",
       assert_names(self$col_info$id, if (allow_utf8_names()) "unique" else "strict",
         .var.name = "feature names")
       assert_subset(self$col_info$type, mlr_reflections$task_feature_types, .var.name = "feature types")
-      pmap(self$col_info[, c("id", "levels")],
+      pmap(
+        self$col_info[, c("id", "levels")],
         function(id, levels) {
-          assert_character(levels, any.missing = FALSE, min.len = 1L, null.ok = TRUE,
+          assert_character(levels,
+            any.missing = FALSE, min.len = 1L, null.ok = TRUE,
             .var.name = sprintf("levels of '%s'", id))
-        }
-      )
+        })
 
       cn = self$col_info$id # note: this sorts the columns!
       rn = self$backend$rownames
@@ -162,6 +164,7 @@ Task = R6Class("Task",
     #'
     #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
     data = function(rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE) {
+
       assert_has_backend(self)
       assert_choice(data_format, self$data_formats)
       assert_flag(ordered)
@@ -326,6 +329,7 @@ Task = R6Class("Task",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     rbind = function(data) {
+
       assert_has_backend(self)
 
       pk = self$backend$primary_key
@@ -373,7 +377,8 @@ Task = R6Class("Task",
       }
 
       # merge col infos
-      tab = merge(self$col_info, col_info(data), by = "id",
+      tab = merge(self$col_info, col_info(data),
+        by = "id",
         all.x = TRUE, all.y = FALSE, suffixes = c("", "_y"), sort = TRUE)
       levels = levels_y = type = type_y = NULL
 
@@ -411,6 +416,7 @@ Task = R6Class("Task",
     #' See the section on task mutators for more information.
     #' @param data (`data.frame()`).
     cbind = function(data) {
+
       assert_has_backend(self)
       pk = self$backend$primary_key
 
@@ -535,6 +541,7 @@ Task = R6Class("Task",
     #' `cols` defaults to all columns with storage type "factor" or "ordered".
     #' @return Modified `self`.
     droplevels = function(cols = NULL) {
+
       assert_has_backend(self)
       tab = self$col_info[get("type") %in% c("factor", "ordered"), c("id", "levels"), with = FALSE]
       if (!is.null(cols)) {
@@ -552,9 +559,7 @@ Task = R6Class("Task",
 
       self$col_info = ujoin(self$col_info, tab, key = "id")
       invisible(self)
-    }
-  ),
-
+    }),
   active = list(
     #' @template field_hash
     hash = function(rhs) {
@@ -582,7 +587,8 @@ Task = R6Class("Task",
       if (length(nn) == 0L) {
         return(NULL)
       }
-      setnames(self$backend$data(rows = self$row_ids, cols = c(self$backend$primary_key, nn)),
+      setnames(
+        self$backend$data(rows = self$row_ids, cols = c(self$backend$primary_key, nn)),
         c("row_id", "row_name"))
     },
 
@@ -618,7 +624,8 @@ Task = R6Class("Task",
     properties = function(rhs) {
       if (missing(rhs)) {
         col_roles = private$.col_roles
-        c(character(),
+        c(
+          character(),
           private$.properties,
           if (length(col_roles$group)) "groups" else NULL,
           if (length(col_roles$stratum)) "strata" else NULL,
@@ -719,6 +726,7 @@ Task = R6Class("Task",
     #' Returns `NULL` if there are is no stratification variable.
     #' See [Resampling] for more information on stratification.
     strata = function(rhs) {
+
       assert_has_backend(self)
       assert_ro_binding(rhs)
       cols = private$.col_roles$stratum
@@ -807,27 +815,24 @@ Task = R6Class("Task",
       }
       data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, uri_col))
       setnames(data, c("row_id", "uri"))[]
-    }
-  ),
-
+    }),
   private = list(
     .properties = NULL,
     .col_roles = NULL,
     .row_roles = NULL,
     .hash = NULL,
-
     deep_clone = function(name, value) {
       # NB: DataBackends are never copied!
       # TODO: check if we can assume col_info to be read-only
       if (name == "col_info") copy(value) else value
-    }
-  )
+    })
 )
 
 task_data = function(self, rows = NULL, cols = NULL, data_format = "data.table", ordered = TRUE) {
 }
 
 task_print = function(self) {
+
   catf("%s (%i x %i)", format(self), self$nrow, self$ncol)
   catf(str_indent("* Target:", self$target_names))
   catf(str_indent("* Properties:", self$properties))
@@ -947,7 +952,8 @@ task_rm_backend = function(task) {
 
 #' @export
 rd_info.Task = function(obj, section) { # nolint
-  c("",
+  c(
+    "",
     sprintf("* Task type: %s", rd_format_string(obj$task_type)),
     sprintf("* Dimensions: %ix%i", obj$nrow, obj$ncol),
     sprintf("* Properties: %s", rd_format_string(obj$properties)),

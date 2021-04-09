@@ -161,6 +161,7 @@ Resampling = R6Class("Resampling",
     #' You need to explicitly `$clone()` the object beforehand if you want to keeps
     #' the object in its previous state.
     instantiate = function(task) {
+
       task = assert_task(as_task(task))
       strata = task$strata
       groups = task$groups
@@ -203,9 +204,7 @@ Resampling = R6Class("Resampling",
     #' @return (`integer()`) of row ids.
     test_set = function(i) {
       private$.get_set(private$.get_test, i)
-    }
-  ),
-
+    }),
   active = list(
     #' @field is_instantiated (`logical(1)`)\cr
     #'   Is `TRUE` if the resampling has been instantiated.
@@ -218,12 +217,9 @@ Resampling = R6Class("Resampling",
     hash = function(rhs) {
       assert_ro_binding(rhs)
       hash(list(class(self), self$id, self$param_set$values, self$instance))
-    }
-  ),
-
+    }),
   private = list(
     .groups = NULL,
-
     .get_set = function(getter, i) {
       if (!self$is_instantiated) {
         stopf("Resampling '%s' has not been instantiated yet", self$id)
@@ -236,8 +232,7 @@ Resampling = R6Class("Resampling",
       }
 
       private$.groups[list(ids), on = "group", allow.cartesian = TRUE][[1L]]
-    }
-  )
+    })
 )
 
 

@@ -25,7 +25,8 @@
 #'
 #' # Internal storage:
 #' rins$instance # just row ids
-ResamplingInsample = R6Class("ResamplingInsample", inherit = Resampling,
+ResamplingInsample = R6Class("ResamplingInsample",
+  inherit = Resampling,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -36,24 +37,19 @@ ResamplingInsample = R6Class("ResamplingInsample", inherit = Resampling,
     #' @template field_iters
     iters = 1L
   ),
-
   private = list(
     .sample = function(ids, ...) {
       ids
     },
-
     .get_train = function(i) {
       self$instance
     },
-
     .get_test = function(i) {
       self$instance
     },
-
     .combine = function(instances) {
       do.call(c, instances)
-    }
-  )
+    })
 )
 
 #' @include mlr_resamplings.R

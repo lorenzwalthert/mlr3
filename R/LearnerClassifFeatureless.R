@@ -23,7 +23,8 @@
 #'
 #' @template seealso_learner
 #' @export
-LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = LearnerClassif,
+LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless",
+  inherit = LearnerClassif,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -58,15 +59,12 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
     #' @return `character(0)`.
     selected_features = function() {
       character()
-    }
-  ),
-
+    }),
   private = list(
     .train = function(task) {
       tn = task$target_names
       set_class(list(tab = table(task$data(cols = tn)[[1L]]), features = task$feature_names), "classif.featureless_model")
     },
-
     .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")
       tab = self$model$tab
@@ -93,8 +91,7 @@ LearnerClassifFeatureless = R6Class("LearnerClassifFeatureless", inherit = Learn
         colnames(prob) = names(tab)
         list(prob = prob)
       }
-    }
-  )
+    })
 )
 
 #' @include mlr_learners.R
