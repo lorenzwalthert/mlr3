@@ -46,8 +46,9 @@ MeasureDebug = R6Class("MeasureDebug",
   private = list(
     .score = function(prediction, ...) {
       na_ratio = assert_number(self$na_ratio, lower = 0, upper = 1)
-      if (self$na_ratio > runif(1L))
+      if (self$na_ratio > runif(1L)) {
         return(NA_integer_)
+      }
       length(prediction$row_ids)
     })
 )

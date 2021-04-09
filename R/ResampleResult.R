@@ -226,8 +226,9 @@ ResampleResult = R6Class("ResampleResult",
     task = function(rhs) {
       assert_ro_binding(rhs)
       tab = self$data$tasks(self$view)
-      if (nrow(tab) == 0L)
+      if (nrow(tab) == 0L) {
         return(NULL)
+      }
       tab$task[[1L]]
     },
 
@@ -237,8 +238,9 @@ ResampleResult = R6Class("ResampleResult",
     learner = function(rhs) {
       assert_ro_binding(rhs)
       tab = self$data$learners(self$view, states = FALSE)
-      if (nrow(tab) == 0L)
+      if (nrow(tab) == 0L) {
         return(NULL)
+      }
       tab$learner[[1L]]
     },
 
@@ -247,8 +249,9 @@ ResampleResult = R6Class("ResampleResult",
     resampling = function(rhs) {
       assert_ro_binding(rhs)
       tab = self$data$resamplings(self$view)
-      if (nrow(tab) == 0L)
+      if (nrow(tab) == 0L) {
         return(NULL)
+      }
       tab$resampling[[1L]]
     },
 

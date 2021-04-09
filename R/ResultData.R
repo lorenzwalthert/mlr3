@@ -296,15 +296,17 @@ ResultData = R6Class("ResultData",
     #'   Returns `NULL` if the [ResultData] is empty.
     task_type = function() {
       tab = self$data$tasks
-      if (nrow(tab))
+      if (nrow(tab)) {
         tab$task[[1L]]$task_type
-      else
+      } else {
         NULL
+      }
     }),
   private = list(
     get_view_index = function(view) {
-      if (is.null(view))
+      if (is.null(view)) {
         return(TRUE)
+      }
       self$data$fact[list(view), on = "uhash", nomatch = NULL, which = TRUE]
     },
     deep_clone = function(name, value) {

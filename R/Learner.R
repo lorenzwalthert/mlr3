@@ -247,8 +247,9 @@ Learner = R6Class("Learner",
       }
 
       pdata = learner_predict(self, task, row_ids)
-      if (is.null(pdata))
+      if (is.null(pdata)) {
         return(NULL)
+      }
 
       as_prediction(check_prediction_data(pdata))
     },
@@ -273,8 +274,9 @@ Learner = R6Class("Learner",
       newdata = as.data.table(assert_data_frame(newdata, min.rows = 1L))
 
       if (is.null(task)) {
-        if (is.null(self$state$train_task))
+        if (is.null(self$state$train_task)) {
           stopf("No task stored, and no task provided")
+        }
         task = self$state$train_task$clone()
       } else {
         task = assert_task(as_task(task, clone = TRUE))
@@ -414,7 +416,8 @@ Learner = R6Class("Learner",
         .param_set = value$clone(deep = TRUE),
         fallback = if (is.null(value)) NULL else value$clone(deep = TRUE),
         state = {
-          value$log = copy(value$log); value
+          value$log = copy(value$log)
+          value
         },
         value
       )

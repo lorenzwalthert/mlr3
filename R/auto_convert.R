@@ -80,7 +80,8 @@ ee[["character___ordered"]] =
   ee[["logical___ordered"]]
 ee[["character___POSIXct"]] =
   function(value, type, levels) {
-    x = try(as.POSIXct(value, ""), silent = TRUE); if (inherits(x, "try-error")) value else x
+    x = try(as.POSIXct(value, ""), silent = TRUE)
+    if (inherits(x, "try-error")) value else x
   }
 
 ## from: factor
