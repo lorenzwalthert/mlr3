@@ -163,8 +163,9 @@ assert_measure = function(measure, task = NULL, learner = NULL, .var.name = vnam
 #' @rdname mlr_assertions
 assert_measures = function(measures, task = NULL, learner = NULL, .var.name = vname(measures)) {
   lapply(measures, assert_measure, task = task, learner = learner, .var.name = .var.name)
-  if (anyDuplicated(ids(measures)))
+  if (anyDuplicated(ids(measures))) {
     stopf("Measures need to have unique IDs")
+  }
   invisible(measures)
 }
 
