@@ -57,9 +57,9 @@ TaskGeneratorMoons = R6Class("TaskGeneratorMoons",
       x = c(runif(n1, 0, pi), runif(n2, pi, 2 * pi))
 
       data.table(
-        y = factor(rep(c("A", "B"), c(n1, n2)), levels = c("A", "B")),
-        x1 = 5  * cos(x) + rnorm(n, mean = mu, sd = sigma),
-        x2 = 10 * sin(x) + rnorm(n, mean = mu, sd = sigma)
+        y  = factor(rep(c("A", "B"), c(n1, n2)), levels = c("A", "B")),
+        x1 =              5 * cos(x) + rnorm(n, mean = mu, sd = sigma),
+        x2 =             10 * sin(x) + rnorm(n, mean = mu, sd = sigma)
       )
     },
 
